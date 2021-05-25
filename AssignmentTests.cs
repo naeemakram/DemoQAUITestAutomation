@@ -14,64 +14,45 @@ namespace DemoQAUITestAutomation
         public void Setup()
         {
             _driver = new ChromeDriver();            
+            
         }
 
         [Test]
         public void Case1Test()
         {
-            _driver.Navigate().GoToUrl(_url);
-            _driver.FindElement(By.XPath("//h5[contains(text(), 'Forms')]/parent::div/parent::div/parent::div")).Click();
-
-            
-
-            WebDriverWait waiter = new WebDriverWait(_driver, TimeSpan.FromSeconds(5));
-            waiter.IgnoreExceptionTypes(typeof(NoSuchElementException), typeof(ElementNotVisibleException));
-
-            var practiceForm = waiter.Until(x => x.FindElement(By.XPath("//span[contains(text(), 'Practice Form')]")));
-
-            practiceForm.Click();
-
-            var firstName = waiter.Until(x => x.FindElement(By.Id("firstName")));
-            var lastName = _driver.FindElement(By.Id("lastName"));
-            var mobileNumber = _driver.FindElement(By.Id("userNumber"));
+            PageHome homePage = new PageHome(_driver);
 
 
-            firstName.SendKeys("Blah");
-            lastName.SendKeys("Blah");
-            mobileNumber.SendKeys("0123456789");
-            var radioMale = _driver.FindElement(By.XPath("//input[@id='gender-radio-1']/parent::div"));
-            radioMale.Click();
-            
-            lastName.Submit();
+            var formsPage = homePage.OpenHomePage(_url).
+                OpenForms();
 
-            var closeButton = waiter.Until(x => x.FindElement(By.XPath("//*[@id='closeLargeModal']")));
+            var practiceForm = formsPage.OpenPracticeForm();
 
-            closeButton.Click();
+            practiceForm.WaitForPracticeFormToLoad();
 
+            practiceForm.SetFirstName("First Value").
+                SetLastName("Last Value").
+                SetMobileNumber("03331234567").
+                SetGenderMale().
+                SubmitForm().
+                CloseFormSubmittedPage();
         }
 
         [Test]
         public void Case2Test()
         {
-            _driver.Navigate().GoToUrl(_url);
-            _driver.FindElement(By.XPath("//h5[contains(text(), 'Forms')]/parent::div/parent::div/parent::div")).Click();
+            PageHome homePage = new PageHome(_driver);
 
 
+            var formsPage = homePage.OpenHomePage(_url).
+                OpenForms();
 
-            WebDriverWait waiter = new WebDriverWait(_driver, TimeSpan.FromSeconds(5));
-            waiter.IgnoreExceptionTypes(typeof(NoSuchElementException), typeof(ElementNotVisibleException));
+            var practiceForm = formsPage.OpenPracticeForm();
 
-            var practiceForm = waiter.Until(x => x.FindElement(By.XPath("//span[contains(text(), 'Practice Form')]")));
+            practiceForm.WaitForPracticeFormToLoad();
 
-            practiceForm.Click();
-
-            var firstName = waiter.Until(x => x.FindElement(By.Id("firstName")));            
-            
-
-            firstName.Submit();
-
-            _driver.Quit();
+            practiceForm.
+                SubmitForm();                
         }
-
     }
 }
