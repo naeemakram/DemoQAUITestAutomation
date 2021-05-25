@@ -16,57 +16,53 @@ namespace DemoQAUITestAutomation
 
         public PagePractice WaitForPracticeFormToLoad()
         {
-            WebDriverWait waiter = new WebDriverWait(_driver, TimeSpan.FromSeconds(5));
-            waiter.IgnoreExceptionTypes(typeof(NoSuchElementException), typeof(ElementNotVisibleException));
-            waiter.Until(x => x.FindElement(By.Id("firstName")));
+
+            ValueFirstName firstName = new ValueFirstName(_driver);
+            firstName.WaitForControl();
             return this;
         }
 
         public PagePractice SetFirstName(string valFirstName)
         {
-            var inputFirstName = _driver.FindElement(By.Id("firstName"));
-
-            inputFirstName.SendKeys(valFirstName);
-
+            ValueFirstName firstName = new ValueFirstName(_driver);
+            firstName.SetFirstNameValue(valFirstName);
             return this;          
         }
 
         public PagePractice SetLastName(string valLastName)
         {
-            var inputLastName = _driver.FindElement(By.Id("lastName"));
-
-            inputLastName.SendKeys(valLastName);
-
+            ValueLastName lastName = new ValueLastName(_driver);
+            lastName.SetLastNameValue(valLastName);
             return this;
         }
 
         public PagePractice SetMobileNumber(string valMobileNumber)
         {
-            var inputMobileNumber = _driver.FindElement(By.Id("userNumber"));
-
-            inputMobileNumber.SendKeys(valMobileNumber);
-
+            ValueMobileNumber mobileNumber = new ValueMobileNumber(_driver);
+            mobileNumber.SetMobileValue(valMobileNumber);
             return this;
         }
 
         public PagePractice SetGenderMale()
         {
-            var radioMale = _driver.FindElement(By.XPath("//input[@id='gender-radio-1']/parent::div"));
-            radioMale.Click();
+            ValueRadioGender gender = new ValueRadioGender(_driver);
+            gender.SetGenderValue("Male");
+
+            System.Threading.Thread.Sleep(3000);
             return this;
         }
 
         public PagePractice SetGenderFemale()
-        {
-            var radioMale = _driver.FindElement(By.XPath("//input[@id='gender-radio-2']/parent::div"));
-            radioMale.Click();
+        {            
+            ValueRadioGender gender = new ValueRadioGender(_driver);
+            gender.SetGenderValue("Female");
             return this;
         }
 
         public PagePractice SetGenderOther()
         {
-            var radioMale = _driver.FindElement(By.XPath("//input[@id='gender-radio-3']/parent::div"));
-            radioMale.Click();
+            ValueRadioGender gender = new ValueRadioGender(_driver);
+            gender.SetGenderValue("Other");
             return this;
         }
 

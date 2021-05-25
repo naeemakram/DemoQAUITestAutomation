@@ -13,8 +13,7 @@ namespace DemoQAUITestAutomation
         [SetUp]
         public void Setup()
         {
-            _driver = new ChromeDriver();            
-            
+            _driver = new ChromeDriver();                        
         }
 
         [Test]
@@ -35,7 +34,6 @@ namespace DemoQAUITestAutomation
                 SetGenderMale().
                 SubmitForm().
                 CloseFormSubmittedPage();
-
         }
 
         [Test]
@@ -56,6 +54,14 @@ namespace DemoQAUITestAutomation
             var didValidationFail = practiceForm.DidFormValidationFail();
 
             Assert.That(didValidationFail, Is.True);
+        }
+        [TearDown]
+        public void Cleanup()
+        {
+            if (_driver != null)
+            {
+                _driver.Quit();
+            }
         }
     }
 }
