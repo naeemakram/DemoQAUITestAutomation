@@ -33,17 +33,21 @@ namespace DemoQAUITestAutomation
 
             var firstName = waiter.Until(x => x.FindElement(By.Id("firstName")));
             var lastName = _driver.FindElement(By.Id("lastName"));
-            
+            var mobileNumber = _driver.FindElement(By.Id("userNumber"));
+
 
             firstName.SendKeys("Blah");
             lastName.SendKeys("Blah");
-
+            mobileNumber.SendKeys("0123456789");
             var radioMale = _driver.FindElement(By.XPath("//input[@id='gender-radio-1']/parent::div"));
             radioMale.Click();
             
             lastName.Submit();
 
-            _driver.Quit();
+            var closeButton = waiter.Until(x => x.FindElement(By.XPath("//*[@id='closeLargeModal']")));
+
+            closeButton.Click();
+
         }
 
         [Test]
