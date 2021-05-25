@@ -84,5 +84,17 @@ namespace DemoQAUITestAutomation
 
             return this;
         }
+
+        public bool DidFormValidationFail()
+        {
+            var form = _driver.FindElement(By.Id("userForm"));
+            var classValue = form.GetAttribute("class");
+            
+
+            Console.WriteLine($"was validated: {classValue}");
+
+            return classValue.Trim().Equals("was-validated");
+        }
+
     }
 }

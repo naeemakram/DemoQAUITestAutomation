@@ -22,7 +22,6 @@ namespace DemoQAUITestAutomation
         {
             PageHome homePage = new PageHome(_driver);
 
-
             var formsPage = homePage.OpenHomePage(_url).
                 OpenForms();
 
@@ -36,13 +35,13 @@ namespace DemoQAUITestAutomation
                 SetGenderMale().
                 SubmitForm().
                 CloseFormSubmittedPage();
+
         }
 
         [Test]
         public void Case2Test()
         {
             PageHome homePage = new PageHome(_driver);
-
 
             var formsPage = homePage.OpenHomePage(_url).
                 OpenForms();
@@ -52,7 +51,11 @@ namespace DemoQAUITestAutomation
             practiceForm.WaitForPracticeFormToLoad();
 
             practiceForm.
-                SubmitForm();                
+                SubmitForm();
+
+            var didValidationFail = practiceForm.DidFormValidationFail();
+
+            Assert.That(didValidationFail, Is.True);
         }
     }
 }
