@@ -1,4 +1,5 @@
-﻿using OpenQA.Selenium;
+﻿using NUnit.Framework;
+using OpenQA.Selenium;
 using OpenQA.Selenium.Support.UI;
 using System;
 using System.Collections.Generic;
@@ -72,24 +73,32 @@ namespace DemoQAUITestAutomation
             return this;
         }
 
-        public PagePractice CloseFormSubmittedPage()
+        public PagePractice AssertCloseFormSubmittedPageShow()
         {
             WebDriverWait waiter = new WebDriverWait(_driver, TimeSpan.FromSeconds(5));
             var closeButton = waiter.Until(x => x.FindElement(By.XPath("//*[@id='closeLargeModal']")));
-            closeButton.Click();
-
+            Assert.That(closeButton.Displayed, Is.True);
             return this;
         }
 
-        public bool DidFormValidationFail()
+        public PagePractice CloseFormSubmittedPage()
+        {
+            var closeButton = _driver.FindElement(By.XPath("//*[@id='closeLargeModal']"));
+            closeButton.Click();
+            return this;
+        }
+
+        public PagePractice AssertFormValidationFail()
         {
             var form = _driver.FindElement(By.Id("userForm"));
             var classValue = form.GetAttribute("class");
             
 
             Console.WriteLine($"was validated: {classValue}");
+            
+            Assert.That(classValue.Trim(), Is.EqualTo("was-validated"));
 
-            return classValue.Trim().Equals("was-validated");
+            return this;
         }
 
     }

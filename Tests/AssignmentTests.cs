@@ -20,31 +20,38 @@ namespace DemoQAUITestAutomation
         [Test]
         public void Case1Test()
         {
+            //arrange
             PageHome homePage = new PageHome(_driver);
-
+            
             var formsPage = homePage.OpenHomePage(_url).
                 OpenForms();
 
             var practiceForm = formsPage.OpenPracticeForm();
 
             practiceForm.WaitForPracticeFormToLoad();
-
+            
+            //act
             practiceForm.SetFirstName("First Value").
                 SetLastName("Last Value").
                 SetMobileNumber("03331234567").
                 SetGenderMale().
                 SubmitForm().
+                
+            //assert
+                AssertCloseFormSubmittedPageShow().
                 CloseFormSubmittedPage();
         }
 
         [Test]
         public void Case2Test()
         {
+            //arrange
             PageHome homePage = new PageHome(_driver);
 
             var formsPage = homePage.OpenHomePage(_url).
                 OpenForms();
 
+            //act
             var practiceForm = formsPage.OpenPracticeForm();
 
             practiceForm.WaitForPracticeFormToLoad();
@@ -52,9 +59,9 @@ namespace DemoQAUITestAutomation
             practiceForm.
                 SubmitForm();
 
-            var didValidationFail = practiceForm.DidFormValidationFail();
-
-            Assert.That(didValidationFail, Is.True);
+            //assert
+            practiceForm.AssertFormValidationFail();
+            
         }
         [TearDown]
         public void Cleanup()
