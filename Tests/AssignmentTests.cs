@@ -6,6 +6,7 @@ using System;
 
 namespace DemoQAUITestAutomation
 {
+    [TestFixture]
     public class AssignmentTests
     {
         public const string _url = "https://demoqa.com/";
