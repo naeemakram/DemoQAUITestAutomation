@@ -34,10 +34,7 @@ namespace DemoQAUITestAutomation
             practiceForm.WaitForPracticeFormToLoad();
             
             //act
-            practiceForm.SetFirstName(studentForm.First).
-                SetLastName(studentForm.Last).
-                SetMobileNumber(studentForm.Mobile).
-                SetGender(studentForm.Gender).
+            practiceForm.SetStudentData(studentForm).
                 SubmitForm().
                 
             //assert

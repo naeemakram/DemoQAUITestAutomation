@@ -1,4 +1,5 @@
 ﻿using DemoQAUITestAutomation.Extensions;
+using DemoQAUITestAutomation.Values;
 using NUnit.Framework;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.UI;
@@ -86,6 +87,15 @@ namespace DemoQAUITestAutomation
             return this;
         }
         
+        public PagePractice SetStudentData(Student valueToSet)
+        {
+            this.SetFirstName(valueToSet.First).
+                SetLastName(valueToSet.Last).
+                SetMobileNumber(valueToSet.Mobile).
+                SetGender(valueToSet.Gender);
+
+            return this;
+        }
 
         public PagePractice SubmitForm()
         {
