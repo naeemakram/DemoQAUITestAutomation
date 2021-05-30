@@ -1,3 +1,4 @@
+using DemoQAUITestAutomation.Values;
 using NUnit.Framework;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
@@ -21,6 +22,8 @@ namespace DemoQAUITestAutomation
         public void Case1Test()
         {
             //arrange
+            Student studentForm = Student.Create("Naeem", "Malik", "03331234567", PagePractice.FormGender.Male); 
+
             PageHome homePage = new PageHome(_driver);
             
             var formsPage = homePage.OpenHomePage(_url).
@@ -31,10 +34,10 @@ namespace DemoQAUITestAutomation
             practiceForm.WaitForPracticeFormToLoad();
             
             //act
-            practiceForm.SetFirstName("First Value").
-                SetLastName("Last Value").
-                SetMobileNumber("03331234567").
-                SetGender(PagePractice.FormGender.Male).
+            practiceForm.SetFirstName(studentForm.First).
+                SetLastName(studentForm.Last).
+                SetMobileNumber(studentForm.Mobile).
+                SetGender(studentForm.Gender).
                 SubmitForm().
                 
             //assert
