@@ -1,4 +1,5 @@
-﻿using NUnit.Framework;
+﻿using DemoQAUITestAutomation.Extensions;
+using NUnit.Framework;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.UI;
 using System;
@@ -10,6 +11,14 @@ namespace DemoQAUITestAutomation
     class PagePractice
     {
         IWebDriver _driver;
+
+        public IWebDriver Driver
+        {
+            get
+            {
+                return _driver;
+            }
+        }
         public PagePractice(IWebDriver driver)
         {
             _driver = driver;
@@ -17,55 +26,66 @@ namespace DemoQAUITestAutomation
 
         public PagePractice WaitForPracticeFormToLoad()
         {
+            IWebElement firstName = GetFirstName();
+            firstName.WaitForControl(_driver);
 
-            ValueFirstName firstName = new ValueFirstName(_driver);
-            firstName.WaitForControl();
             return this;
         }
 
         public PagePractice SetFirstName(string valFirstName)
         {
-            ValueFirstName firstName = new ValueFirstName(_driver);
-            firstName.SetFirstNameValue(valFirstName);
+            IWebElement firstName = GetFirstName();
+            firstName.SendKeys(valFirstName);
             return this;          
         }
 
         public PagePractice SetLastName(string valLastName)
         {
-            ValueLastName lastName = new ValueLastName(_driver);
-            lastName.SetLastNameValue(valLastName);
+            var lastName = GetLastName();
+            lastName.SendKeys(valLastName);
             return this;
+        }
+
+        public IWebElement GetLastName()
+        {
+            return Driver.FindElement(By.Id("lastName"));
+        }
+
+        public IWebElement GetMobileNumber()
+        {
+            return Driver.FindElement(By.Id("userNumber"));
         }
 
         public PagePractice SetMobileNumber(string valMobileNumber)
         {
-            ValueMobileNumber mobileNumber = new ValueMobileNumber(_driver);
-            mobileNumber.SetMobileValue(valMobileNumber);
+            var mobileNumber = GetMobileNumber();
+            mobileNumber.SendKeys(valMobileNumber);
             return this;
         }
 
-        public PagePractice SetGenderMale()
-        {
-            ValueRadioGender gender = new ValueRadioGender(_driver);
-            gender.SetGenderValue("Male");
+        public enum FormGender { Male, Female, Other};
 
-            System.Threading.Thread.Sleep(3000);
-            return this;
-        }
-
-        public PagePractice SetGenderFemale()
+        public PagePractice SetGender(FormGender gender)
         {            
-            ValueRadioGender gender = new ValueRadioGender(_driver);
-            gender.SetGenderValue("Female");
-            return this;
-        }
+            var genderRadios = Driver.FindElements(By.XPath("//input[@name='gender']/parent::div"));
 
-        public PagePractice SetGenderOther()
-        {
-            ValueRadioGender gender = new ValueRadioGender(_driver);
-            gender.SetGenderValue("Other");
+            string radioValue = string.Empty;
+            foreach (var d in genderRadios)
+            {
+                var radio = d.FindElement(By.Name("gender"));
+                radioValue = radio.GetAttribute("Value");
+                string output = $"Radio text: {radioValue} - {radio.Selected}";
+                Console.WriteLine(output);
+                
+                if (Enum.Parse(typeof(FormGender), radioValue).Equals(gender))
+                {
+                    d.Click();// parent container receives click event
+                }
+            }
+            
             return this;
         }
+        
 
         public PagePractice SubmitForm()
         {
@@ -99,6 +119,34 @@ namespace DemoQAUITestAutomation
             Assert.That(classValue.Trim(), Is.EqualTo("was-validated"));
 
             return this;
+        }
+        
+        public IWebElement GetFirstName()
+        {
+            
+            return Driver.FindElement(By.Id("firstName"));
+            
+        }
+
+        public string GetGenderValue()
+        {
+            var genderRadios = Driver.FindElements(By.XPath("//input[@name='gender']/parent::div"));
+
+            string returnValue = string.Empty;
+            string radioValue = string.Empty;
+
+            foreach (var d in genderRadios)
+            {
+                var radio = d.FindElement(By.Name("gender"));
+                radioValue = radio.GetAttribute("Value");
+
+                if (radio.Selected)
+                {
+                    returnValue = radioValue;
+                }
+            }
+
+            return returnValue;
         }
 
     }

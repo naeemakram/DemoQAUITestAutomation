@@ -34,7 +34,7 @@ namespace DemoQAUITestAutomation
             practiceForm.SetFirstName("First Value").
                 SetLastName("Last Value").
                 SetMobileNumber("03331234567").
-                SetGenderMale().
+                SetGender(PagePractice.FormGender.Male).
                 SubmitForm().
                 
             //assert
