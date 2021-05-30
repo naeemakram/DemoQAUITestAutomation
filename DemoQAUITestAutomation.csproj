@@ -14,8 +14,4 @@
     <PackageReference Include="Selenium.WebDriver.ChromeDriver" Version="91.0.4472.1900" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Values\" />
-  </ItemGroup>
-
 </Project>
