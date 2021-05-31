@@ -22,7 +22,8 @@ namespace DemoQAUITestAutomation
         public void Case1Test()
         {
             //arrange
-            Student studentForm = Student.Create("Naeem", "Malik", "03331234567", PagePractice.FormGender.Male); 
+            Student studentForm = 
+                Student.Create("Naeem", "Malik", "03331234567", PagePractice.FormGender.Male); 
 
             PageHome homePage = new PageHome(_driver);
             

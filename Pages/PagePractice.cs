@@ -1,4 +1,5 @@
 ﻿using DemoQAUITestAutomation.Extensions;
+using DemoQAUITestAutomation.Pages.Maps;
 using DemoQAUITestAutomation.Values;
 using NUnit.Framework;
 using OpenQA.Selenium;
@@ -12,6 +13,7 @@ namespace DemoQAUITestAutomation
     class PagePractice
     {
         IWebDriver _driver;
+        MapPractice _mapPractice; 
 
         public IWebDriver Driver
         {
@@ -23,44 +25,33 @@ namespace DemoQAUITestAutomation
         public PagePractice(IWebDriver driver)
         {
             _driver = driver;
+            _mapPractice = new MapPractice(_driver);
         }
 
         public PagePractice WaitForPracticeFormToLoad()
         {
-            IWebElement firstName = GetFirstName();
-            firstName.WaitForControl(_driver);
+            
+            _mapPractice.GetFirstName().WaitForControl(_driver);
 
             return this;
         }
 
         public PagePractice SetFirstName(string valFirstName)
         {
-            IWebElement firstName = GetFirstName();
-            firstName.SendKeys(valFirstName);
+            
+            _mapPractice.GetFirstName().SendKeys(valFirstName);
             return this;          
         }
 
         public PagePractice SetLastName(string valLastName)
-        {
-            var lastName = GetLastName();
-            lastName.SendKeys(valLastName);
+        {            
+            _mapPractice.GetLastName().SendKeys(valLastName);
             return this;
         }
 
-        public IWebElement GetLastName()
-        {
-            return Driver.FindElement(By.Id("lastName"));
-        }
-
-        public IWebElement GetMobileNumber()
-        {
-            return Driver.FindElement(By.Id("userNumber"));
-        }
-
         public PagePractice SetMobileNumber(string valMobileNumber)
-        {
-            var mobileNumber = GetMobileNumber();
-            mobileNumber.SendKeys(valMobileNumber);
+        {            
+            _mapPractice.GetMobileNumber().SendKeys(valMobileNumber);
             return this;
         }
 
@@ -99,7 +90,7 @@ namespace DemoQAUITestAutomation
 
         public PagePractice SubmitForm()
         {
-            _driver.FindElement(By.Id("lastName")).Submit();
+            _mapPractice.GetLastName().Submit();
             return this;
         }
 
@@ -130,13 +121,7 @@ namespace DemoQAUITestAutomation
 
             return this;
         }
-        
-        public IWebElement GetFirstName()
-        {
-            
-            return Driver.FindElement(By.Id("firstName"));
-            
-        }
+               
 
         public string GetGenderValue()
         {
