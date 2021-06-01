@@ -94,12 +94,11 @@ namespace DemoQAUITestAutomation
             return this;
         }
 
-        public PagePractice AssertCloseFormSubmittedPageShow()
+        public bool IsCloseFormSubmittedPageShow()
         {
-            WebDriverWait waiter = new WebDriverWait(_driver, TimeSpan.FromSeconds(5));
-            var closeButton = waiter.Until(x => x.FindElement(By.XPath("//*[@id='closeLargeModal']")));
-            Assert.That(closeButton.Displayed, Is.True);
-            return this;
+            WebDriverWait waiter = new WebDriverWait(_driver, TimeSpan.FromSeconds(5));            
+            
+            return waiter.Until(x => x.FindElement(By.XPath("//*[@id='closeLargeModal']"))).Displayed;
         }
 
         public PagePractice CloseFormSubmittedPage()
@@ -109,17 +108,15 @@ namespace DemoQAUITestAutomation
             return this;
         }
 
-        public PagePractice AssertFormValidationFail()
+        public bool DidFormValidationFail()
         {
             var form = _driver.FindElement(By.Id("userForm"));
             var classValue = form.GetAttribute("class");
             
 
             Console.WriteLine($"was validated: {classValue}");
-            
-            Assert.That(classValue.Trim(), Is.EqualTo("was-validated"));
 
-            return this;
+            return classValue.Trim().Equals("was-validated");
         }
                
 

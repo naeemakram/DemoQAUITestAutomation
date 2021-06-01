@@ -33,14 +33,14 @@ namespace DemoQAUITestAutomation
             var practiceForm = formsPage.OpenPracticeForm();
 
             practiceForm.WaitForPracticeFormToLoad();
-            
+
             //act
             practiceForm.SetStudentData(studentForm).
-                SubmitForm().
-                
+                SubmitForm();
+
             //assert
-                AssertCloseFormSubmittedPageShow().
-                CloseFormSubmittedPage();
+            Assert.That(practiceForm.IsCloseFormSubmittedPageShow(), Is.True);
+                
         }
 
         [Test]
@@ -61,7 +61,7 @@ namespace DemoQAUITestAutomation
                 SubmitForm();
 
             //assert
-            practiceForm.AssertFormValidationFail();
+            Assert.That(practiceForm.DidFormValidationFail(), Is.True);
             
         }
         [TearDown]
