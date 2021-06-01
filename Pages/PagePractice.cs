@@ -1,19 +1,16 @@
 ﻿using DemoQAUITestAutomation.Extensions;
 using DemoQAUITestAutomation.Pages.Maps;
 using DemoQAUITestAutomation.Values;
-using NUnit.Framework;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.UI;
 using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace DemoQAUITestAutomation
 {
     class PagePractice
     {
         IWebDriver _driver;
-        MapPractice _mapPractice; 
+        MapPractice _mapPractice;
 
         public IWebDriver Driver
         {
@@ -30,7 +27,7 @@ namespace DemoQAUITestAutomation
 
         public PagePractice WaitForPracticeFormToLoad()
         {
-            
+
             _mapPractice.GetFirstName().WaitForControl(_driver);
 
             return this;
@@ -38,46 +35,44 @@ namespace DemoQAUITestAutomation
 
         public PagePractice SetFirstName(string valFirstName)
         {
-            
+
             _mapPractice.GetFirstName().SendKeys(valFirstName);
-            return this;          
+            return this;
         }
 
         public PagePractice SetLastName(string valLastName)
-        {            
+        {
             _mapPractice.GetLastName().SendKeys(valLastName);
             return this;
         }
 
         public PagePractice SetMobileNumber(string valMobileNumber)
-        {            
+        {
             _mapPractice.GetMobileNumber().SendKeys(valMobileNumber);
             return this;
         }
 
-        public enum FormGender { Male, Female, Other};
+        public enum FormGender { Male, Female, Other };
 
-        public PagePractice SetGender(FormGender gender)
-        {            
-            var genderRadios = Driver.FindElements(By.XPath("//input[@name='gender']/parent::div"));
+        public PagePractice SetGender(FormGender genderToSet)
+        {
+            var genderDivs = Driver.FindElements(By.XPath("//input[@name='gender']/parent::div"));
 
             string radioValue = string.Empty;
-            foreach (var d in genderRadios)
+            foreach (var genderDiv in genderDivs)
             {
-                var radio = d.FindElement(By.Name("gender"));
-                radioValue = radio.GetAttribute("Value");
-                string output = $"Radio text: {radioValue} - {radio.Selected}";
-                Console.WriteLine(output);
-                
-                if (Enum.Parse(typeof(FormGender), radioValue).Equals(gender))
+                var genderRadioElement = genderDiv.FindElement(By.Name("gender"));
+                radioValue = genderRadioElement.GetAttribute("Value");
+               
+                if (Enum.Parse(typeof(FormGender), radioValue).Equals(genderToSet))
                 {
-                    d.Click();// parent container receives click event
+                    genderDiv.Click();// parent container receives click event
                 }
             }
-            
+
             return this;
         }
-        
+
         public PagePractice SetStudentData(Student valueToSet)
         {
             this.SetFirstName(valueToSet.First).
@@ -96,8 +91,8 @@ namespace DemoQAUITestAutomation
 
         public bool IsCloseFormSubmittedPageShow()
         {
-            WebDriverWait waiter = new WebDriverWait(_driver, TimeSpan.FromSeconds(5));            
-            
+            WebDriverWait waiter = new WebDriverWait(_driver, TimeSpan.FromSeconds(5));
+
             return waiter.Until(x => x.FindElement(By.XPath("//*[@id='closeLargeModal']"))).Displayed;
         }
 
@@ -112,29 +107,23 @@ namespace DemoQAUITestAutomation
         {
             var form = _driver.FindElement(By.Id("userForm"));
             var classValue = form.GetAttribute("class");
-            
-
-            Console.WriteLine($"was validated: {classValue}");
 
             return classValue.Trim().Equals("was-validated");
         }
-               
+
 
         public string GetGenderValue()
         {
-            var genderRadios = Driver.FindElements(By.XPath("//input[@name='gender']/parent::div"));
-
             string returnValue = string.Empty;
-            string radioValue = string.Empty;
+            var genderDivs = Driver.FindElements(By.XPath("//input[@name='gender']/parent::div"));
 
-            foreach (var d in genderRadios)
+            foreach (var genderDiv in genderDivs)
             {
-                var radio = d.FindElement(By.Name("gender"));
-                radioValue = radio.GetAttribute("Value");
+                var radioGender = genderDiv.FindElement(By.Name("gender"));                
 
-                if (radio.Selected)
+                if (radioGender.Selected)
                 {
-                    returnValue = radioValue;
+                    returnValue = radioGender.GetAttribute("Value");
                 }
             }
 

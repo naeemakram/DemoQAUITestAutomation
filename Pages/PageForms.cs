@@ -1,17 +1,15 @@
 ﻿using OpenQA.Selenium;
 using OpenQA.Selenium.Support.UI;
 using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace DemoQAUITestAutomation
 {
     class PageForms
     {
-        IWebDriver _driver; 
+        IWebDriver _driver;
         public PageForms(IWebDriver driver)
         {
-            _driver = driver; 
+            _driver = driver;
         }
 
         public PagePractice OpenPracticeForm()
@@ -23,7 +21,7 @@ namespace DemoQAUITestAutomation
 
             practiceForm.Click();
 
-            return new PagePractice(_driver); 
+            return new PagePractice(_driver);
         }
 
     }

@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace DemoQAUITestAutomation.Values
 {
@@ -42,7 +41,6 @@ namespace DemoQAUITestAutomation.Values
             _mobile = mobile;
             _gender = gender;
         }
-
 
         public string First => _firsName;
         public string Last => _lastName;
