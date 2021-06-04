@@ -2,18 +2,22 @@ using DemoQAUITestAutomation.Values;
 using NUnit.Framework;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
+using Microsoft.Extensions.Configuration.Json;
+using Microsoft.Extensions.Configuration;
+using DemoQAUITestAutomation.Tests;
 
 namespace DemoQAUITestAutomation
 {
     [TestFixture]
     public class AssignmentTests
     {
-        public const string _url = "https://demoqa.com/";
-        IWebDriver _driver;
+        PageHome _homePage;        
+        
+
         [SetUp]
         public void Setup()
         {
-            _driver = new ChromeDriver();
+            _homePage = new PageHome(new ChromeDriver());            
         }
 
         [Test]
@@ -21,11 +25,14 @@ namespace DemoQAUITestAutomation
         {
             //arrange
             Student studentForm =
-                Student.Create("Naeem", "Malik", "03331234567", PagePractice.FormGender.Male);
+                Student.Create(TestConfig.Instance.StudentFirstName,
+                                TestConfig.Instance.StudentLastName,
+                                TestConfig.Instance.StudentMobileNumber,
+                                PagePractice.FormGender.Male);
 
-            PageHome homePage = new PageHome(_driver);
+            
 
-            var formsPage = homePage.OpenHomePage(_url).
+            var formsPage = _homePage.OpenHomePage(TestConfig.Instance.URL).
                 OpenForms();
 
             var practiceForm = formsPage.OpenPracticeForm();
@@ -35,7 +42,7 @@ namespace DemoQAUITestAutomation
             //act
             practiceForm.SetStudentData(studentForm).
                 SubmitForm();
-
+            System.Threading.Thread.Sleep(5000);
             //assert
             Assert.That(practiceForm.IsCloseFormSubmittedPageShow(), Is.True);
 
@@ -44,10 +51,9 @@ namespace DemoQAUITestAutomation
         [Test]
         public void Case2Test()
         {
-            //arrange
-            PageHome homePage = new PageHome(_driver);
+            //arrange            
 
-            var formsPage = homePage.OpenHomePage(_url).
+            var formsPage = _homePage.OpenHomePage(TestConfig.Instance.URL).
                 OpenForms();
 
             //act
@@ -65,9 +71,9 @@ namespace DemoQAUITestAutomation
         [TearDown]
         public void Cleanup()
         {
-            if (_driver != null)
+            if (_homePage.Driver != null)
             {
-                _driver.Quit();
+                _homePage.Driver.Quit();
             }
         }
     }

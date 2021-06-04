@@ -1,13 +1,13 @@
-﻿using OpenQA.Selenium;
+﻿using DemoQAUITestAutomation.Pages;
+using OpenQA.Selenium;
 
 namespace DemoQAUITestAutomation
 {
-    class PageHome
+    class PageHome: PageGeneral
     {
-        IWebDriver _driver;
-        public PageHome(IWebDriver driver)
-        {
-            _driver = driver;
+        
+        public PageHome(IWebDriver driver): base(driver)
+        {            
         }
 
         public PageForms OpenForms()

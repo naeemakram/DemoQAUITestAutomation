@@ -1,4 +1,5 @@
 ﻿using DemoQAUITestAutomation.Extensions;
+using DemoQAUITestAutomation.Pages;
 using DemoQAUITestAutomation.Pages.Maps;
 using DemoQAUITestAutomation.Values;
 using OpenQA.Selenium;
@@ -7,27 +8,18 @@ using System;
 
 namespace DemoQAUITestAutomation
 {
-    class PagePractice
+    class PagePractice: PageGeneral
     {
-        IWebDriver _driver;
-        MapPractice _mapPractice;
 
-        public IWebDriver Driver
-        {
-            get
-            {
-                return _driver;
-            }
-        }
-        public PagePractice(IWebDriver driver)
-        {
-            _driver = driver;
+        MapPractice _mapPractice;
+       
+        public PagePractice(IWebDriver driver): base(driver)
+        {            
             _mapPractice = new MapPractice(_driver);
         }
 
         public PagePractice WaitForPracticeFormToLoad()
         {
-
             _mapPractice.GetFirstName().WaitForControl(_driver);
 
             return this;

@@ -1,15 +1,14 @@
-﻿using OpenQA.Selenium;
+﻿using DemoQAUITestAutomation.Pages;
+using OpenQA.Selenium;
 using OpenQA.Selenium.Support.UI;
 using System;
 
 namespace DemoQAUITestAutomation
 {
-    class PageForms
-    {
-        IWebDriver _driver;
-        public PageForms(IWebDriver driver)
+    class PageForms: PageGeneral
+    {        
+        public PageForms(IWebDriver driver): base(driver)
         {
-            _driver = driver;
         }
 
         public PagePractice OpenPracticeForm()
